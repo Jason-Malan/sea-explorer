@@ -23,12 +23,35 @@ int blanks_tabs_newlines_counter()
 
     printf("blanks: %d, tabs: %d, newlines %d", blanks, tabs, newlines);
 
-    return 1;
+    return 0;
+}
+
+int copy_input_to_output_replacing_special_chars()
+{
+    int c;
+
+    while ((c = getchar()) != EOF)
+    {
+        if (c == '\t')
+        {
+            printf("\\t");
+        }
+        else if (c == '\\')
+        {
+            printf("\\\\");
+        }
+        else
+        {
+            printf("%c", c);
+        }
+    }
+
+    return 0;
 }
 
 int main()
 {
-    return blanks_tabs_newlines_counter();
+    return copy_input_to_output_replacing_special_chars();
 }
 
 int counter()
@@ -46,5 +69,5 @@ int counter()
 
     printf("%d", nl);
 
-    return 1;
+    return 0;
 }
