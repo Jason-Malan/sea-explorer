@@ -7,24 +7,29 @@ void copy(char to[], char from[]);
 /* print the longest input line */
 int main()
 {
-    int len;               /* current line length */
-    int max = 0;           /* maximum length seen so far */
-    char line[MAXLINE];    /* current input line */
-    char longest[MAXLINE]; /* longest line saved here */
+    int len;            /* current line length */
+    char line[MAXLINE]; /* current input line */
+
+    int lines_above_80_chars_index = 0;
+    char lines_above_80_chars[MAXLINE][MAXLINE]; /* longest lines saved here */
 
     while ((len = getline2(line, MAXLINE)) > 0)
     {
-        printf("%d", len);
-        printf("%s", line);
-        if (len > max)
+        if (len >= 80)
         {
-            max = len;
-            copy(longest, line);
+            int i;
+            i = 0;
+            while ((lines_above_80_chars[lines_above_80_chars_index][i] = line[i]) != '\0')
+                ++i;
+            ++lines_above_80_chars_index;
         }
     }
 
-    if (max > 0)               /* there was a line */
-        printf("%s", longest); // todo: what does %s do?
+    for (int i = 0; i < lines_above_80_chars_index; i++)
+    {
+        printf("%s", lines_above_80_chars[i]);
+    }
+    // printf("%s", longest); // todo: what does %s do?
 
     return 0;
 }
@@ -48,13 +53,4 @@ int getline2(char s[], int lim)
     s[i] = '\0'; // null terminating operator for char arrays.
 
     return i;
-}
-
-/* copy: copy 'from' into 'to'; assume to is big enough */
-void copy(char to[], char from[])
-{
-    int i;
-    i = 0;
-    while ((to[i] = from[i]) != '\0')
-        ++i;
 }
