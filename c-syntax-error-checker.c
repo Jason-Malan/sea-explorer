@@ -12,10 +12,6 @@
     3.1 comments
 */
 
-/*
-    
-*/
-
 #define MAX_IN_CHAR_STACK_DEPTH 10
 #define WRONG_SYN_MSG "WRONG SYNTAX \n"
 
@@ -26,11 +22,37 @@ int main() {
     int inCharStackIndex = 0;
     int inDoubleQuotes = 0;
     int inSingleQuotes = 0;
+
     int c;
     while ((c = getchar()) != EOF) 
     {
+        // doesnt really work if you have a double quote in two double quotes.
+        if (c == '"') 
+        {
+            if (inDoubleQuotes == 0 || inSingleQuotes == 0) 
+            {
+                inDoubleQuotes = 1;
+                inCharStack[inCharStackIndex++];
+            } 
+            else if (inDoubleQuotes == 1)
+            {
+                --inCharStackIndex;
+            }
+            continue;
+        }
+
+        if (inDoubleQuotes == 1) 
+        {
+            continue;
+        }
+
+        if (c == '\'' && (inDoubleQuotes == 0 || inSingleQuotes == 0)) 
+        {
+            inSingleQuotes = 1;
+            continue;
+        }
+
         HandleUnmatchedWrappers(c, inCharStack, inCharStackIndex);
-        
     }
 
     return 1;
