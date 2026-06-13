@@ -19,14 +19,25 @@
 #define MAX_IN_CHAR_STACK_DEPTH 10
 #define WRONG_SYN_MSG "WRONG SYNTAX \n"
 
+void HandleUnmatchedWrappers(int c, char inCharStack[], int inCharStackIndex);
+
 int main() {
     char inCharStack[MAX_IN_CHAR_STACK_DEPTH] = {0};
     int inCharStackIndex = 0;
-
+    int inDoubleQuotes = 0;
+    int inSingleQuotes = 0;
     int c;
     while ((c = getchar()) != EOF) 
     {
-        if (c == '(' || c == '[' || c == '{') 
+        HandleUnmatchedWrappers(c, inCharStack, inCharStackIndex);
+        
+    }
+
+    return 1;
+}
+
+void HandleUnmatchedWrappers(int c, char inCharStack[], int inCharStackIndex) {
+    if (c == '(' || c == '[' || c == '{') 
         {
             inCharStack[inCharStackIndex++] = c;
         }
@@ -57,7 +68,4 @@ int main() {
             } 
             --inCharStackIndex;
         }
-    }
-
-    return 1;
 }
