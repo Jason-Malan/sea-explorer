@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <time.h>
 
-int binary_search(int x, int v[], int n);
-
 #define REPEATS 10000000
+
+int binary_search(int x, int v[], int n);
 
 int main(void)
 {
@@ -29,23 +29,18 @@ int binary_search(int x, int v[], int n)
     low = 0;
     high = n - 1;
 
-    while (low <= high)
+    while (low < high)
     {
         mid = (low + high) / 2;
         if (x < v[mid])
         {
-            // weird how my book says +1 here...
             high = mid - 1;
         } 
-        else if (x > v[mid])
+        else 
         {
             low = mid + 1;
         }
-        else 
-        {
-            return mid;
-        }
     }
 
-    return -1;
+    return v[low] == x ? low : -1;
 }
