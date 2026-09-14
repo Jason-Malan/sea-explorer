@@ -21,14 +21,17 @@ void itoa(int n, char s[])
 {
     int i, sign;
     
-    if ((sign = n) < 0) {
-        n = -n;
-    }
+    sign = n;
 
     i = 0;
     do {
-        s[i++] = n % 10 + '0';
-    } while ((n /= 10) > 0);
+        int digit = n % 10;
+        if (digit < 0) 
+        {
+            digit = -digit;
+        }
+        s[i++] = digit + '0';
+    } while ((n /= 10) != 0);
     
     if (sign < 0)
     {
