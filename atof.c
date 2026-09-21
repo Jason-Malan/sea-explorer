@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdio.h>
 
 /* atof: convert string s to double */
 double atof(char s[])
@@ -24,5 +25,46 @@ double atof(char s[])
 		power *= 10;
 	}
 
-	return sign * val / power;
+    if (s[i] != 'e' && s[i] != 'E')
+    {
+        return sign * val / power;
+    }
+ 
+    int scientific_notation_sign = 1;
+    if (s[++i] == '-')
+    {
+        scientific_notation_sign = -1;
+        i++; 
+    }
+
+    int scientific_num = 0;
+    for (; isdigit(s[i]); i++)
+    {
+        scientific_num = 10 * scientific_num + (s[i] - '0');
+    }
+
+    double n = 1;
+    if (scientific_notation_sign == 1)
+    {
+        while (scientific_num > 0)
+        {
+            n *= 10;
+            scientific_num--;
+        }
+        return (sign * val / power) * n;
+    }
+
+    while (scientific_num > 0)
+    {
+        n = n / 10;
+        scientific_num--;
+    }
+
+    return (sign * val / power) * n;
+}
+
+int main(void)
+{
+    double result = atof("123.45e-6");
+    printf("%.17f", result);
 }
