@@ -15,6 +15,7 @@ int getch(void);
 void ungetch(int);
 void print_top(void);
 double peek(void);
+void duplicate(void);
 
 /* reverse Polish calculator */
 int main()
@@ -28,7 +29,6 @@ int main()
         case NUMBER:
             push(atof(s));
             print_top();
-            duplicate();
             break;
         case '+':
             push(pop() + pop());
@@ -108,7 +108,9 @@ void duplicate(void)
 {
     if (sp > 0)
     {
-        val[sp++] = val[sp - 1];
+        int pos = sp - 1;
+        int dup_pos = ++sp;
+        val[dup_pos] = val[pos];
     } 
     else 
     {
