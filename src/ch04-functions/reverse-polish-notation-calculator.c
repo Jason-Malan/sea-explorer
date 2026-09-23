@@ -13,6 +13,8 @@ void push(double);
 double pop(void);
 int getch(void);
 void ungetch(int);
+void print_top(void);
+double peek(void);
 
 /* reverse Polish calculator */
 int main()
@@ -25,6 +27,7 @@ int main()
         switch (type) {
         case NUMBER:
             push(atof(s));
+            print_top();
             break;
         case '+':
             push(pop() + pop());
@@ -76,6 +79,25 @@ double pop(void)
     if (sp > 0)
         return val[--sp];
     else {
+        printf("error: stack empty\n");
+        return 0.0;
+    }
+}
+
+void print_top(void)
+{
+    double top = peek();
+    printf("peeked: %f\n", top);
+}
+
+double peek(void)
+{
+    if (sp > 0)
+    {
+        return val[sp - 1];
+    }
+    else
+    {
         printf("error: stack empty\n");
         return 0.0;
     }
