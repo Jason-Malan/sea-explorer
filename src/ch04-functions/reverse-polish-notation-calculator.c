@@ -84,24 +84,29 @@ double pop(void)
 /* getop: get next operator or numeric operand */
 int getop(char s[])
 {
-    int i, c;
+    int i = 0, c, next;
 
     while ((s[0] = c = getch()) == ' ' || c == '\t');
 
+    s[0] = c;
     s[1] = '\0';
-    int next_char = getchar();
-    if (!isdigit(c) && c != '.' && !isdigit(next_char))
-    {
-        return c;  /* not a number */
-    }
-    ungetch(next_char);
 
-    i = 0;
-    if (c == '-')  /* collect negative integer part */
+    if (c == '-') {
+        next = getch();
+
+        if (!isdigit(next) && next != '.') {
+            if (next != EOF)
+                ungetch(next);
+            return '-';
+        }
+
+        s[++i] = c = next;
+    } 
+    else if (!isdigit(c) && c != '.') 
     {
-        while (isdigit(s[++i] = c = getch()))
-            ;
+        return c;
     }
+
     if (isdigit(c))  /* collect integer part */
         while (isdigit(s[++i] = c = getch()))
             ;
