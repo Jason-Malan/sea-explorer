@@ -110,7 +110,7 @@ void duplicate(void)
     if (sp > 0)
     {
         int pos = sp - 1;
-        int dup_pos = ++sp;
+        int dup_pos = sp++;
         val[dup_pos] = val[pos];
     } 
     else 
@@ -123,8 +123,8 @@ void swap(void)
 {
     if (sp > 1)
     {
-        int el_one_idx = val[sp - 2];
-        int el_two_idx = val[sp - 1];
+        int el_one_idx = sp - 2;
+        int el_two_idx = sp - 1;
         double tmp_one_val = val[el_one_idx];
         val[el_one_idx] = val[el_two_idx];
         val[el_two_idx] = tmp_one_val;
@@ -137,6 +137,12 @@ void swap(void)
     {
         printf("error: stack empty\n");
     }
+}
+
+void clear(void)
+{
+    sp = 0;
+    // dont really see need to zero things out?
 }
 
 /* getop: get next operator or numeric operand */
