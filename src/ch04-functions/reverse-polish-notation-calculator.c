@@ -28,6 +28,7 @@ int main()
         case NUMBER:
             push(atof(s));
             print_top();
+            duplicate();
             break;
         case '+':
             push(pop() + pop());
@@ -100,6 +101,18 @@ double peek(void)
     {
         printf("error: stack empty\n");
         return 0.0;
+    }
+}
+
+void duplicate(void)
+{
+    if (sp > 0)
+    {
+        val[sp++] = val[sp - 1];
+    } 
+    else 
+    {
+        printf("error: stack empty\n");
     }
 }
 
