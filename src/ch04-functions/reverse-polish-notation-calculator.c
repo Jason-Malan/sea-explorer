@@ -16,6 +16,7 @@ void ungetch(int);
 void print_top(void);
 double peek(void);
 void duplicate(void);
+void swap(void);
 
 /* reverse Polish calculator */
 int main()
@@ -111,6 +112,26 @@ void duplicate(void)
         int pos = sp - 1;
         int dup_pos = ++sp;
         val[dup_pos] = val[pos];
+    } 
+    else 
+    {
+        printf("error: stack empty\n");
+    }
+}
+
+void swap(void)
+{
+    if (sp > 1)
+    {
+        int el_one_idx = val[sp - 2];
+        int el_two_idx = val[sp - 1];
+        double tmp_one_val = val[el_one_idx];
+        val[el_one_idx] = val[el_two_idx];
+        val[el_two_idx] = tmp_one_val;
+    } 
+    else if (sp == 1)
+    {
+        printf("error: only one element, two are needed to perform swap\n");
     } 
     else 
     {
