@@ -17,6 +17,7 @@ void print_top(void);
 double peek(void);
 void duplicate(void);
 void swap(void);
+void clear(void);
 
 /* reverse Polish calculator */
 int main()
@@ -54,6 +55,18 @@ int main()
             break;
         case '\n':
             printf("\t%.8g\n", pop());
+            break;
+        case 'p':
+            print_top();
+            break;
+        case 'd':
+            duplicate();
+            break;
+        case 's':
+            swap();
+            break;
+        case 'c':
+            clear();
             break;
         default:
             printf("error: unknown command %s\n", s);
