@@ -13,6 +13,7 @@ void push(double);
 double pop(void);
 int getch(void);
 void ungetch(int);
+void ungets(char []);
 void print_top(void);
 double peek(void);
 void duplicate(void);
@@ -219,6 +220,21 @@ int bufp = 0;       /* next free position in buf */
 int getch(void)  /* get a (possibly pushed-back) character */
 {
     return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungets(char s[])
+{
+    int i = 0, c;
+
+    while (s[i] != '\0')
+    {
+        i++;
+    }
+
+    while (i > 0)
+    {
+        ungetch(s[--i]);
+    }
 }
 
 void ungetch(int c)  /* push character back on input */
