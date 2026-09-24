@@ -19,6 +19,8 @@ void duplicate(void);
 void swap(void);
 void clear(void);
 
+double most_recently_printed_value;
+
 /* reverse Polish calculator */
 int main()
 {
@@ -30,7 +32,9 @@ int main()
         switch (type) {
         case NUMBER:
             push(atof(s));
-            print_top();
+            break;
+        case '@':
+            push(most_recently_printed_value);
             break;
         case '+':
             push(pop() + pop());
@@ -62,9 +66,11 @@ int main()
         case 'P':
             op2 = pop();
             push(pow(pop(), op2));
-            break;
+            break;                
         case '\n':
-            printf("\t%.8g\n", pop());
+            op2 = pop();
+            most_recently_printed_value = op2;
+            printf("\t%.8g\n", op2);
             break;
         case 'p':
             print_top();
@@ -112,6 +118,7 @@ double pop(void)
 void print_top(void)
 {
     double top = peek();
+    most_recently_printed_value = top;
     printf("peeked: %f\n", top);
 }
 
