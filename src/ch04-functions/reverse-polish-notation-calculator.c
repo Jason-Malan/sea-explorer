@@ -224,7 +224,7 @@ int getch(void)  /* get a (possibly pushed-back) character */
 
 void ungets(char s[])
 {
-    int i = 0, c;
+    int i = 0;
 
     while (s[i] != '\0')
     {
