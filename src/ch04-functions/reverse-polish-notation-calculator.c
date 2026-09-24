@@ -227,6 +227,7 @@ int getch(void)
     return getchar();
 }
 
+/* unused, wont work with refactored ungetch */
 void ungets(char s[])
 {
     int i = 0;
