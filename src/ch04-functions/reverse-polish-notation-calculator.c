@@ -7,6 +7,7 @@
 #define NUMBER  '0'  /* signal that a number was found */
 #define MAXVAL  100  /* maximum depth of val stack */
 #define BUFSIZE 100
+#define MAXLINE 1000
 
 int getop(char []);
 void push(double);
@@ -19,8 +20,12 @@ double peek(void);
 void duplicate(void);
 void swap(void);
 void clear(void);
+int getline(void);
 
 double most_recently_printed_value;
+int line_pos = 0;
+int line_length;
+char line[MAXLINE];
 
 /* reverse Polish calculator */
 int main()
@@ -181,21 +186,25 @@ int getop(char s[])
 {
     int i = 0, c, next;
 
-    while ((s[0] = c = getch()) == ' ' || c == '\t');
+    if (line_pos == line_length)
+    {
+        line_length = getline();
+        line_pos = 0;
+    }
+
+    while ((s[0] = c = line[line_pos++]) == ' ' || c == '\t');
 
     s[0] = c;
     s[1] = '\0';
 
     if (c == '-') {
-        next = getch();
+        next = line[line_pos];
 
         if (!isdigit(next) && next != '.') {
-            if (next != EOF)
-                ungetch(next);
             return '-';
         }
 
-        s[++i] = c = next;
+        s[++i] = c = line[line_pos++];
     } 
     else if (!isdigit(c) && c != '.') 
     {
@@ -203,28 +212,14 @@ int getop(char s[])
     }
 
     if (isdigit(c))  /* collect integer part */
-        while (isdigit(s[++i] = c = getch()))
+        while (isdigit(s[++i] = c = line[line_pos++]))
             ;
     if (c == '.')    /* collect fraction part */
-        while (isdigit(s[++i] = c = getch()))
+        while (isdigit(s[++i] = c = line[line_pos++]))
             ;
     s[i] = '\0';
-    if (c != EOF)
-        ungetch(c);
+    
     return NUMBER;
-}
-
-int pushed_char;
-int has_pushback = 0;
-
-int getch(void)
-{
-    if (has_pushback) {
-        has_pushback = 0;
-        return pushed_char;
-    }
-
-    return getchar();
 }
 
 /* unused, wont work with refactored ungetch */
@@ -243,13 +238,21 @@ void ungets(char s[])
     }
 }
 
-void ungetch(int c)
+int getline(void)
 {
-    if (has_pushback) {
-        printf("ungetch: buffer full\n");
-        return;
+    int c, i;
+
+    for (i = 0; (i < MAXLINE - 1) && ((c = getchar()) != EOF) && (c != '\n'); ++i) {
+        line[i] = c;
     }
 
-    pushed_char = c;
-    has_pushback = 1;
+    if (c == '\n')
+    {
+        line[i] = c;
+        ++i;
+    }
+    
+    line[i] = '\0';
+
+    return i;
 }
