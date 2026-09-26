@@ -4,35 +4,63 @@
 int getch(void);
 void ungetch(int);
 
-/* getint: get next integer from input into *pn */
 int getint(int *pn)
 {
-	int c, sign;
+    int c, sign, sign_char = 0;
 
-	while (isspace(c = getch())) /* skip white space */
-		;
-	if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
-		ungetch(c); /* it is not a number */
-		return 0;
-	}
-	sign = (c == '-') ? -1 : 1;
-	if (c == '+' || c == '-')
-		c = getch();
-	for (*pn = 0; isdigit(c); c = getch())
-		*pn = 10 * *pn + (c - '0');
-	*pn *= sign;
-	if (c != EOF)
-		ungetch(c);
-	return c;
+    while (isspace(c = getch()))
+        ;
+
+    if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+        ungetch(c);
+        return 0;
+    }
+
+    sign = (c == '-') ? -1 : 1;
+
+    if (c == '+' || c == '-') {
+        sign_char = c;
+        c = getch();
+
+        if (!isdigit(c)) {
+            if (c != EOF)
+                ungetch(c);
+
+            ungetch(sign_char);
+            return 0;
+        }
+    }
+
+    for (*pn = 0; isdigit(c); c = getch())
+        *pn = 10 * *pn + (c - '0');
+
+    *pn *= sign;
+
+    if (c != EOF)
+        ungetch(c);
+
+    return c;
 }
 
-int main()
+int main(void)
 {
-	int value;
+	int n, r;
 
-	printf("Enter an integer: ");
-	if (getint(&value) != 0)
-		printf("Read: %d\n", value);
-	else
-		printf("Input was not an integer.\n");
+	while ((r = getint(&n)) != EOF) {
+		if (r > 0) 
+        {
+			printf("read %d\n", n);
+        }
+		else
+        {
+            int v =  getch();
+			printf("(%d) not a number: '%c'\n", r, v);
+            if (v == 'x')
+            {
+                break;
+            }
+        }
+	}
+
+	return 0;
 }
