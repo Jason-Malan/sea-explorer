@@ -2,7 +2,7 @@
 
 #define MAXLINE 1000
 
-int getline(char *input_line)
+int get_line(char *input_line)
 {
     int c;
 
@@ -19,14 +19,14 @@ int getline(char *input_line)
     return input_line - start;
 }
 
-int main(void)
-{
-    char input_line[MAXLINE];
+// int main(void)
+// {
+//     char input_line[MAXLINE];
 
-    while (getline(input_line) != 0)
-    {
-        printf("%s\n", input_line);
-    }
+//     while (get_line(input_line) != 0)
+//     {
+//         printf("%s\n", input_line);
+//     }
 
-    return 0;
-}
+//     return 0;
+// }

@@ -20,7 +20,7 @@ double peek(void);
 void duplicate(void);
 void swap(void);
 void clear(void);
-int getline(void);
+int get_line(void);
 
 double most_recently_printed_value;
 int line_pos = 0;
@@ -188,7 +188,7 @@ int getop(char s[])
 
     if (line_pos == line_length)
     {
-        line_length = getline();
+        line_length = get_line();
         line_pos = 0;
     }
 
@@ -238,7 +238,7 @@ void ungets(char s[])
     }
 }
 
-int getline(void)
+int get_line(void)
 {
     int c, i;
 

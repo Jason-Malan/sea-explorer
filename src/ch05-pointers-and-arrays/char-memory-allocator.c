@@ -1,4 +1,4 @@
-#include <cstddef>
+#include <stddef.h>
 #define ALLOCSIZE 10000
 
 static char allocbuf[ALLOCSIZE];
